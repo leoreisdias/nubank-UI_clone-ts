@@ -1,19 +1,30 @@
 import React from 'react';
-import { QRCode } from 'react-native-qrcode-svg';
+// import QRCode from 'react-native-qrcode-svg';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 
 import { Container, Code, Nav, NavItem, NavText, SignOutButton, SignOutButtonText } from './styles';
 
-const Menu: React.FC = () => {
+interface MenuProps {
+    translateY: any;
+}
+
+const Menu: React.FC<MenuProps> = ({ translateY }) => {
     return (
-        <Container>
+        <Container
+            style={{
+                opacity: translateY.interpolate({
+                    inputRange: [0, 150],
+                    outputRange: [0, 1]
+                })
+            }}
+        >
             <Code>
-                <QRCode
+                {/* <QRCode
                     value="https://www.linkedin.com/in/leonardord99/"
                     backgroundColor='white'
                     color="#8b10ae"
-                />
+                /> */}
             </Code>
 
             <Nav>
