@@ -1,5 +1,5 @@
 import React from 'react';
-// import QRCode from 'react-native-qrcode-svg';
+import QRCode from 'react-native-qrcode-svg';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 
@@ -20,11 +20,11 @@ const Menu: React.FC<MenuProps> = ({ translateY }) => {
             }}
         >
             <Code>
-                {/* <QRCode
+                <QRCode
                     value="https://www.linkedin.com/in/leonardord99/"
                     backgroundColor='white'
                     color="#8b10ae"
-                /> */}
+                />
             </Code>
 
             <Nav>
