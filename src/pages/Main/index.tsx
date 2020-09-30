@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import { Animated } from 'react-native'
@@ -11,6 +11,10 @@ import Menu from '../../components/Menu'
 import { Container, Content, Card, CardHeader, CardContent, CardFooter, Title, Description, Annotation } from './styles';
 
 const Main: React.FC = () => {
+    const [hideCashColor, sethideCashColor] = useState('black');
+    const [backgroundCash, setBackgroundCash] = useState('white');
+
+    let offset = 0;
     const translateY = new Animated.Value(0);
 
     const animatedEvent = Animated.event(
@@ -27,7 +31,43 @@ const Main: React.FC = () => {
     )
 
     function onHandlerStateChanged(event: any) {
+        if (event.nativeEvent.oldState === State.ACTIVE) {
+            let opened = false;
+            const { translationY } = event.nativeEvent;
 
+            offset += translationY;
+
+            if (translationY >= 100) {
+                opened = true;
+            } else {
+                translateY.setValue(offset);
+                translateY.setOffset(0);
+                offset = 0;
+            }
+
+
+            Animated.timing(translateY, {
+                toValue: opened ? 380 : 0,
+                duration: 200,
+                useNativeDriver: true,
+            }).start(() => {
+                offset = opened ? 380 : 0;
+                translateY.setOffset(offset);
+                translateY.setValue(0);
+            });
+
+        }
+    }
+
+    function handlerOpacityCash() {
+        if (hideCashColor === '#ddd') {
+            sethideCashColor('black');
+            setBackgroundCash('white')
+        }
+        else {
+            sethideCashColor('#ddd');
+            setBackgroundCash('#ddd');
+        }
     }
 
     return (
@@ -54,11 +94,14 @@ const Main: React.FC = () => {
                     >
                         <CardHeader>
                             <Icon name="attach-money" size={28} color="#666" />
-                            <Icon name="visibility-off" size={28} color="#666" />
+                            <Icon name="visibility-off" size={28} color="#666" onPress={handlerOpacityCash} />
                         </CardHeader>
                         <CardContent>
                             <Title>Saldo Disponível</Title>
-                            <Description>R$ 200.000,01</Description>
+                            <Description style={{
+                                color: hideCashColor,
+                                backgroundColor: backgroundCash
+                            }}>R$ 200.000,01</Description>
                         </CardContent>
                         <CardFooter>
                             <Annotation>
