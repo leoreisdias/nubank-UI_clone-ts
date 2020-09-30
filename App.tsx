@@ -6,8 +6,8 @@ import Main from './src/pages/Main';
 export default function App() {
   return (
     <>
-      <Main />
       <StatusBar style="auto" />
+      <Main />
     </>
   );
 }
